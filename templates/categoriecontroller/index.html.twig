@@ -3,18 +3,30 @@
 {% block title %}Hello CategoriecontrollerController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="container">
+        <div class="form">
+            <h2> Liste des categories </h2>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+            <table class="table">
+                <tr>
+                    <th>Nom de la catégorie</th>
+                    <th>Action</th>
+                </tr>
+                {% for categorie in categories %}  {#//categories is the variable passed from the controller containing the list of categories #}
+                    <tr>
+                        <td>{{ categorie.name }}
+                        </td>
+                        <td>
+                            <a href="{{ path('app_categorie_update', {'id': categorie.id}) }}" class="btn btn-primary">Modifier</a>{# on donne le chemin de la route app_categorie_update et on precise la wildcard l'id de la catégorie #}
+                            <a href="{{ path('app_categorie_remove', {'id': categorie.id}) }}" class="btn btn-danger">Supprimer</a>{# on donne le chemin de la route app_categorie_remove et on precise la wildcard l'id de la catégorie #}
+                        </td>
+                    </tr>
+                    {% else %}
+                        <p>Aucune catégorie disponible.</p>
+                {% endfor %}
+                            <a href="{{ path('app_categorie_new') }}" class="btn btn-success">Ajouter une catégorie</a>
+            </table>
+        </div>
+    </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/wamp64/www/e-commerce/e-commerce/src/Controller/CategoriecontrollerController.php</code></li>
-        <li>Your template at <code>C:/wamp64/www/e-commerce/e-commerce/templates/categoriecontroller/index.html.twig</code></li>
-    </ul>
-</div>
 {% endblock %}
