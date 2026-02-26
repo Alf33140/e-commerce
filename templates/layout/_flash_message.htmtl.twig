@@ -1,0 +1,10 @@
+{% for type, messages in app.flashes(['success', 'danger', 'info']) %} {# on utilise la fonction app.flashes pour récupérer les messages flash de types success, danger et info #}
+    {% for message in messages %} {# on boucle sur les messages de chaque type #}
+        <div class= "col-md-12 mx-auto mt-2"> {# on utilise les classes de bootstrap pour centrer le message et lui donner une marge en haut #}
+            <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert"> {# on utilise les classes de bootstrap pour afficher le message avec une couleur correspondant au type (success, danger, info) et pour permettre de fermer le message #}
+                {{ message }} {# on affiche le message #}
+                
+            </div>
+        </div>
+    {% endfor %}
+{% endfor %}
