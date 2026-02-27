@@ -3,18 +3,41 @@
 {% block title %}Gestion des Utilisateurs{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="container">
+       
+            <h2> Gestion des Utilisateurs</h2>
+            
+            {% for user in users %}
+                <table class= "table">
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Roles</th>
+                            <th>Actions</th>
+                        </tr>
+                            <td>{{ user.firstName }}</td>
+                            <td>{{ user.lastName }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/wamp64/www/e-commerce/e-commerce/src/Controller/UserController.php</code></li>
-        <li>Your template at <code>C:/wamp64/www/e-commerce/e-commerce/templates/user/index.html.twig</code></li>
-    </ul>
-</div>
+                            {% if ('ROLE_ADMIN' in user.roles) %}
+                                <span class="text-primary">Administrateur</span>
+                                
+                            {% elseif ('ROLE_USER' in user.roles) %}
+                                <span class="text-secondary">Redacteur</span>
+                            {% else %}
+                                <span class="text-secondary">Utilisateur</span>
+                            {% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ path('app_user_set_roles', {'id': user.id}) }}" class="btn btn-primary">Modifier les Rôles</a>
+                                <a href="" class="btn btn-danger"> Supprimer</a>
+                            </td>
+                            {% endfor %}
+                            
+                            
+                </table>
+            
+    </div>
 {% endblock %}

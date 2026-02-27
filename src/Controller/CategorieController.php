@@ -53,7 +53,7 @@ final class CategorieController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-            $this->addFlash('success','La modification a été réaalisé avec succès');
+            $this->addFlash('success','La modification a été réalisé avec succès');
             return $this->redirectToRoute('app_categorieController');
         }
         return $this->render('categoriecontroller/modifyCategorie.html.twig', [
