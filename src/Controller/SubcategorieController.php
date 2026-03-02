@@ -32,7 +32,7 @@ final class SubcategorieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($subcategorie);
             $entityManager->flush();
-
+            $this->addFlash('success','La sous-catégorie a été créée avec succès.');
             return $this->redirectToRoute('app_subcategorie_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -58,7 +58,7 @@ final class SubcategorieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
+            $this->addFlash('success','La sous-catégorie a été modifiée avec succès.');
             return $this->redirectToRoute('app_subcategorie_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -74,6 +74,7 @@ final class SubcategorieController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$subcategorie->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($subcategorie);
             $entityManager->flush();
+            $this->addFlash('success','La sous-catégorie a été supprimée avec succès.');
         }
 
         return $this->redirectToRoute('app_subcategorie_index', [], Response::HTTP_SEE_OTHER);

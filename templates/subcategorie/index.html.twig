@@ -1,16 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Subcategorie index{% endblock %}
+{% block title %}Sous-categories{% endblock %}
 
 {% block body %}
     <div class="container">
-        <h1>Subcategorie index</h1></label>
+        <h1>Listes des sous-categories</h1></label>
        
         <table class="table">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Name</th>
+                    <th>Categorie</th>
                     <th>actions</th>
                 </tr>
             </thead>
@@ -19,19 +20,22 @@
                 <tr>
                     <td>{{ subcategorie.id }}</td>
                     <td>{{ subcategorie.name }}</td>
+                    <td>{{ subcategorie.category.name }}</td>
                     <td>
-                        <a href="{{ path('app_subcategorie_show', {'id': subcategorie.id}) }}" class="btn btn-outline-primary">show</a>
-                        <a href="{{ path('app_subcategorie_edit', {'id': subcategorie.id}) }}" class="btn btn-outline-secondary">edit</a>
+                        <a href="{{ path('app_subcategorie_show', {'id': subcategorie.id}) }}" class="btn btn-primary">Show</a>
+                        <a href="{{ path('app_subcategorie_edit', {'id': subcategorie.id}) }}" class="btn btn-secondary">Modifier</a>
+                        <a href="{{ path('app_subcategorie_delete', {'id': subcategorie.id}) }}" class="btn btn-outline-danger">Supprimer</a>
                     </td>
+                    
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="3">no records found</td>
+                    <td colspan="3">Pas de résultats trouvés</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
 
         <a href="{{ path('app_subcategorie_new') }}" class="btn btn-outline-primary">Créer une Nouvelle sous-categorie</a>
-</div>
+    </div>
 {% endblock %}

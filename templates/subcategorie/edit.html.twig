@@ -3,11 +3,14 @@
 {% block title %}Edit Subcategorie{% endblock %}
 
 {% block body %}
-    <h1>Edit Subcategorie</h1>
+    
+    <div class="container">
+            <h1>Modifier une sous-categorie</h1>
 
-    {{ include('subcategorie/_form.html.twig', {'button_label': 'Update'}) }}
+        {{ include('subcategorie/_form.html.twig', {'button_label': 'Update'}) }}
+        
+        <a href="{{ path('app_subcategorie_index') }}" class="btn btn-outline-primary">back to list</a>
 
-    <a href="{{ path('app_subcategorie_index') }}" class="btn btn-outline-primary">back to list</a>
-
-    {{ include('subcategorie/_delete_form.html.twig') }}
+        {{ include('subcategorie/_delete_form.html.twig') }}
+</div>
 {% endblock %}
