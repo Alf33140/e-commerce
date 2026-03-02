@@ -14,10 +14,13 @@
             Categories
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{{ path('app_categorieController') }}">Liste des Catégories</a></li>
-            <li><a class="dropdown-item" href=" ">Action</a></li>
+            <li><a class="dropdown-item" href=" ">Mobiliers de restauration</a></li>
+            <li><a class="dropdown-item" href=" ">Autres</a></li>
+            <li><a class="dropdown-item" href=" ">Autres</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li><a class="dropdown-item" href="#">Autres</a></li>
+            <li><a class="dropdown-item" href="#">Autres</a></li>
+            <li><a class="dropdown-item" href="#">Autres</a></li>
           </ul>
         </li>
         {% if is_granted('ROLE_ADMIN') %} 
@@ -27,7 +30,7 @@
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{{ path('app_categorie_new') }}">Ajout des Catégories</a></li>
-            <li><a class="dropdown-item" href=" ">Action</a></li>
+            <li><a class="dropdown-item" href="{{ path('app_categorieController') }}">Gestion des Catégories</a></li>
             <li><hr class="dropdown-divider"></li> {# trait separateur ds la drop liste #}
             <li><a class="dropdown-item" href="{{ path('app_user') }}">Utilisateurs</a></li>
           </ul>

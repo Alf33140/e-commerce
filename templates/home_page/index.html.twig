@@ -1,19 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomePageController!{% endblock %}
+{% block title %}myShop{% endblock %}
 
 {% block body %}
 
-<div class="container">
+<div class="container container-home">
     <div class='container'>
-        <h1>Page d'accueil du site</h1> 
+        <h1>Bienvenu sur myShop</h1> 
     </div>
     <div>
-    
+        <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter au site</a>
+        <a href="{{ path('app_register') }}" class="btn btn-secondary">S'inscrire sur le site</a>
     </div>
-    <div>
-        <a href="{{ path('app_categorie_new') }}" class="btn btn-success">Aller sur la page d'ajout de catégorie</a>
-        <a href="{{ path('app_categorieController') }}" class="btn btn-primary">Aller sur la page de la liste des catégories</a>
-    </div>
+   
 </div>
 {% endblock %}
