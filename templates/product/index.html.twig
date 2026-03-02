@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Product index{% endblock %}
+{% block title %}Listes des produits estampilés WEST POINT à la vente:{% endblock %}
 
 {% block body %}
     <div class="container">
@@ -12,7 +12,7 @@
                     <th>Id</th>
                     <th>Nom du produit</th>
                     <th>Description du produit</th>
-                    <th>Prix</th>
+                    <th>Prix (en thunes)</th>
                     <th>actions</th>
                 </tr>
             </thead>
@@ -36,6 +36,6 @@
             </tbody>
         </table>
 
-        <a href="{{ path('app_product_new') }}">Create new</a>
+        <a href="{{ path('app_product_new') }}">Rentrer un produit</a>
     </div>
 {% endblock %}

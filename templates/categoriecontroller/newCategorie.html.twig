@@ -5,7 +5,7 @@
     <div class="container">
         <div class="form">
             <h2> Ajoutez une catégorie</h2>
-            {% include 'layout/_flash_message.htmtl.twig' %} {# on inclut le template de message flash pour afficher les messages de succès, d'erreur ou d'information #}
+            {% include 'layout/_flash_message.html.twig' %} {# on inclut le template de message flash pour afficher les messages de succès, d'erreur ou d'information #}
             {{ form_start(form) }}
                 {{ form_row(form.name, {"attr": {"class": "form-control"}}) }}
                 <input type="submit" value="Sauvegarder" class="btn btn-primary mt-4">

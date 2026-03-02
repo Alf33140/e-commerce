@@ -32,11 +32,11 @@ final class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $image = $form->get('image')->getData();
-            if ($image) {
-                $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeImageName = $slugger->slug($originalFilename);
-                $newFileImageName = $safeImageName.'-'.uniqid().'.'.$image->guessExtension();  
+            // $image = $form->get('image')->getData();
+            // if ($image) {
+            //     $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+            //     $safeImageName = $slugger->slug($originalFilename);
+            //     $newFileImageName = $safeImageName.'-'.uniqid().'.'.$image->guessExtension();  
                 
             $entityManager->persist($product);
             $entityManager->flush();
