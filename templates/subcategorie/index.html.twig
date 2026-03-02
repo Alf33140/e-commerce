@@ -3,33 +3,35 @@
 {% block title %}Subcategorie index{% endblock %}
 
 {% block body %}
-    <h1>Subcategorie index</h1>
+    <div class="container">
+        <h1>Subcategorie index</h1></label>
+       
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for subcategorie in subcategories %}
+                <tr>
+                    <td>{{ subcategorie.id }}</td>
+                    <td>{{ subcategorie.name }}</td>
+                    <td>
+                        <a href="{{ path('app_subcategorie_show', {'id': subcategorie.id}) }}" class="btn btn-outline-primary">show</a>
+                        <a href="{{ path('app_subcategorie_edit', {'id': subcategorie.id}) }}" class="btn btn-outline-secondary">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for subcategorie in subcategories %}
-            <tr>
-                <td>{{ subcategorie.id }}</td>
-                <td>{{ subcategorie.name }}</td>
-                <td>
-                    <a href="{{ path('app_subcategorie_show', {'id': subcategorie.id}) }}" class="btn btn-outline-primary">show</a>
-                    <a href="{{ path('app_subcategorie_edit', {'id': subcategorie.id}) }}" class="btn btn-outline-secondary">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_subcategorie_new') }}" class="btn btn-outline-primary">Create new</a>
+        <a href="{{ path('app_subcategorie_new') }}" class="btn btn-outline-primary">Créer une Nouvelle sous-categorie</a>
+</div>
 {% endblock %}

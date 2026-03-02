@@ -17,7 +17,7 @@ class SubcategorieType extends AbstractType
             ->add('name')
             ->add('category', EntityType::class, [
                 'class' => Categorie::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',  // on remplace 'id' par "name' pour afficher le nom de la catégorie dans le select ala place du numero id de la categorie ds notre base
             ])
         ;
     }
