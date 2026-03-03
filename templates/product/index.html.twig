@@ -21,11 +21,11 @@
                 <tr>
                     <td>{{ product.id }}</td>
                     <td>{{ product.name }}</td>
-                    <td>{{ product.descriptionproduct }}</td>
+                    <td>{{ product.descriptionproduct|slice(0,60) }}...</td>
                     <td>{{ product.Price }}</td>
                     <td>
                         <a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-success">Montrer</a>
-                        <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary">Modifier</a>
+                        <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary">Modifier</a> 
                     </td>
                 </tr>
             {% else %}

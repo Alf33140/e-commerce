@@ -10,8 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/subcategorie')]
+#[IsGranted('ROLE_ADMIN')]  # Restreint l'accès à toutes les actions du contrôleur aux utilisateurs ayant le rôle ROLE_ADMIN
 final class SubcategorieController extends AbstractController
 {
     #[Route(name: 'app_subcategorie_index', methods: ['GET'])]
