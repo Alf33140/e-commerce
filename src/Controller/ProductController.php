@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\AddProductHistory;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -32,13 +35,28 @@ final class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // $image = $form->get('image')->getData();
-            // if ($image) {
-            //     $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-            //     $safeImageName = $slugger->slug($originalFilename);
-            //     $newFileImageName = $safeImageName.'-'.uniqid().'.'.$image->guessExtension();  
-                
+            $image = $form->get('image')->getData();
+            if ($image) {
+                $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeImageName = $slugger->slug($originalFilename);
+                $newFileImageName = $safeImageName.'-'.uniqid().'.'.$image->guessExtension();  
+                try {
+                        $image->move
+                            ($this->getParameter('image_directory'),
+                            $newFileImageName);/* on recup l'image et on la renomme et on la stocke dans le repertoire */
+                    }catch (FileException $exception) {}/*en cas d'erreur*/
+                        $product->setImage($newFileImageName);
+                    
+                }
+
+            
             $entityManager->persist($product);
+            $entityManager->flush();
+            $stockHistory = new AddProductHistory(); 
+            $stockHistory->setQuantity($product->getStock());
+            $stockHistory->setProduct($product);
+            $stockHistory->setCreatedAt(new DateTimeImmutable());
+            $entityManager->persist($stockHistory);
             $entityManager->flush();
             $this->addFlash('success', 'Le produit a été créé avec succès.');
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);

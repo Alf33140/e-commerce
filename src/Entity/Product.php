@@ -16,7 +16,7 @@ class Product
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 180, unique: true)]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -37,9 +37,19 @@ class Product
     #[ORM\Column]
     private ?int $stock = null;
 
+    /**
+     * @var Collection<int, AddProductHistory>
+     */
+    #[ORM\OneToMany(targetEntity: AddProductHistory::class, mappedBy: 'product')]
+    private Collection $quantity;
+
+    #[ORM\Column]
+    private ?int $Quantity = null;
+
     public function __construct()
     {
         $this->subcategory = new ArrayCollection();
+        $this->quantity = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,6 +137,43 @@ class Product
     public function setStock(int $stock): static
     {
         $this->stock = $stock;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AddProductHistory>
+     */
+    public function getQuantity(): Collection
+    {
+        return $this->quantity;
+    }
+
+    public function addQuantity(AddProductHistory $quantity): static
+    {
+        if (!$this->quantity->contains($quantity)) {
+            $this->quantity->add($quantity);
+            $quantity->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuantity(AddProductHistory $quantity): static
+    {
+        if ($this->quantity->removeElement($quantity)) {
+            // set the owning side to null (unless already changed)
+            if ($quantity->getProduct() === $this) {
+                $quantity->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function setQuantity(int $Quantity): static
+    {
+        $this->Quantity = $Quantity;
 
         return $this;
     }

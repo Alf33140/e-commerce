@@ -13,6 +13,7 @@
                     <th>Nom du produit</th>
                     <th>Description du produit</th>
                     <th>Prix (en thunes)</th>
+                    <th>Stock</th>
                     <th>actions</th>
                 </tr>
             </thead>
@@ -24,8 +25,17 @@
                     <td>{{ product.descriptionproduct|slice(0,60) }}...</td>
                     <td>{{ product.Price }}</td>
                     <td>
+                    {% if product.stock > 0 %}
+                       {{product.stock}}
+                    {% else %}
+                        <span class="text-danger">Rupture de stock</span>
+                    {% endif %}
+                    </td>
+                    <td class="d-flex align-items-center gap-2"> // d-flex align-items-center gap-2 pour espacer les boutons
                         <a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-success">Montrer</a>
-                        <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary">Modifier</a> 
+                        <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary">Modifier</a>
+                        {{ include("product/_delete_form.html.twig") }}
+                        <a class="btn btn-outline-info mt-2" href="">Ajouter du stock
                     </td>
                 </tr>
             {% else %}
