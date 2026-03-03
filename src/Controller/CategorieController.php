@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class CategorieController extends AbstractController
 {
-    #[Route('/admin/categoriecontroller', name: 'app_categorieController')] 
+    #[Route('/admin/categoriecontroller', name: 'app_categorie_index')] 
     public function index(CategorieRepository $repo,): Response
     {
             $categories = $repo->findAll(); // find all: renvoies moi toutes les categories de la base de données

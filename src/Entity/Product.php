@@ -20,19 +20,19 @@ class Product
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $descriptionproduct = null;
+    private ?string $description = null;
 
     #[ORM\Column]
-    private ?int $Price = null;
+    private ?int $price = null;
 
     /**
-     * @var Collection<int, Subcategorie>
+     * @var Collection<int, SubCategory>
      */
     #[ORM\ManyToMany(targetEntity: Subcategorie::class, inversedBy: 'products')]
-    private Collection $subcategory;
+    private Collection $subCategory;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $image = null;
+    #[ORM\Column(length: 180, nullable: true)]
+    private ?string $images = null;
 
     #[ORM\Column]
     private ?int $stock = null;
@@ -43,12 +43,9 @@ class Product
     #[ORM\OneToMany(targetEntity: AddProductHistory::class, mappedBy: 'product')]
     private Collection $quantity;
 
-    #[ORM\Column]
-    private ?int $Quantity = null;
-
     public function __construct()
     {
-        $this->subcategory = new ArrayCollection();
+        $this->subCategory = new ArrayCollection();
         $this->quantity = new ArrayCollection();
     }
 
@@ -69,26 +66,26 @@ class Product
         return $this;
     }
 
-    public function getDescriptionproduct(): ?string
+    public function getDescription(): ?string
     {
-        return $this->descriptionproduct;
+        return $this->description;
     }
 
-    public function setDescriptionproduct(?string $descriptionproduct): static
+    public function setDescription(?string $description): static
     {
-        $this->descriptionproduct = $descriptionproduct;
+        $this->description = $description;
 
         return $this;
     }
 
     public function getPrice(): ?int
     {
-        return $this->Price;
+        return $this->price;
     }
 
-    public function setPrice(int $Price): static
+    public function setPrice(int $price): static
     {
-        $this->Price = $Price;
+        $this->price = $price;
 
         return $this;
     }
@@ -96,35 +93,35 @@ class Product
     /**
      * @return Collection<int, Subcategorie>
      */
-    public function getSubcategory(): Collection
+    public function getSubCategory(): Collection
     {
-        return $this->subcategory;
+        return $this->subCategory;
     }
 
-    public function addSubcategory(Subcategorie $subcategory): static
+    public function addSubCategory(Subcategorie $subCategory): static
     {
-        if (!$this->subcategory->contains($subcategory)) {
-            $this->subcategory->add($subcategory);
+        if (!$this->subCategory->contains($subCategory)) {
+            $this->subCategory->add($subCategory);
         }
 
         return $this;
     }
 
-    public function removeSubcategory(Subcategorie $subcategory): static
+    public function removeSubCategory(Subcategorie $subCategory): static
     {
-        $this->subcategory->removeElement($subcategory);
+        $this->subCategory->removeElement($subCategory);
 
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getImages(): ?string
     {
-        return $this->image;
+        return $this->images;
     }
 
-    public function setImage(?string $image): static
+    public function setImages(?string $images): static
     {
-        $this->image = $image;
+        $this->images = $images;
 
         return $this;
     }
@@ -167,13 +164,6 @@ class Product
                 $quantity->setProduct(null);
             }
         }
-
-        return $this;
-    }
-
-    public function setQuantity(int $Quantity): static
-    {
-        $this->Quantity = $Quantity;
 
         return $this;
     }
