@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-// #[Route('/editor')]
+#[Route('/product')]
 #[IsGranted('ROLE_ADMIN')]
 final class ProductController extends AbstractController
 {
@@ -82,7 +82,7 @@ final class ProductController extends AbstractController
     }
 #endregion
 #region Edit
-    #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
+    #[Route('/product/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Product $product, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ProductType::class, $product);

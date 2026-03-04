@@ -9,6 +9,7 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{{ path('app_home_page') }}">Page d'Acceuil</a>
         </li>
+       
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Categories
@@ -23,6 +24,7 @@
             <li><a class="dropdown-item" href="#">Autres</a></li>
           </ul>
         </li>
+        
         {% if is_granted('ROLE_ADMIN') %} 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -41,6 +43,14 @@
             <li><a class="dropdown-item" href="{{ path('app_user') }}">Utilisateurs</a></li>
           </ul>
         </li>
+        {% endif %}
+         {% if app.user == false %}
+          <li class="nav-item">
+            <a href="{{ path('app_register') }} " class='nav-link'>S'inscrire</a>
+          </li> 
+          <li class="nav-item">
+            <a href="{{ path('app_login') }} " class='nav-link'>Se connecter</a>
+          </li> 
         {% endif %}
         <li class="nav-item">
           <a class="nav-link disabled" aria-disabled="true">Disabled</a>
