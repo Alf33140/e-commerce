@@ -3,9 +3,10 @@
 {% block title %}Listes des produits estampilés WEST POINT à la vente:{% endblock %}
 
 {% block body %}
+
     <div class="container">
         <h1>Liste des produits</h1>
-        {{ include('layout/_flash_message.html.twig') }}
+        {{ include('layout/_flash_message.html.twig') }} {#on inclut un template pour afficher les messages flash, qui sont des messages temporaires utilisés pour informer l'utilisateur de certaines actions, comme la réussite ou l'échec d'une opération. Ce template peut afficher des messages de succès, d'erreur, d'information, etc. en fonction des messages flash définis dans le contrôleur. #}
         <table class="table">
             <thead>
                 <tr>
@@ -18,34 +19,41 @@
                 </tr>
             </thead>
             <tbody>
-            {% for product in products %}
+            {% for product in products %} {#on boucle sur la collection de produits passée à la vue pour afficher les informations de chaque produit dans un tableau. Pour chaque produit, on affiche son id, son nom, une partie de sa description (en utilisant la fonction slice pour limiter le nombre de caractères affichés), son prix et son stock. On affiche également des actions pour chaque produit, comme montrer les détails du produit, modifier le produit, supprimer le produit et ajouter du stock au produit. Si la collection de produits est vide, on affiche un message indiquant qu'aucun produit n'a été trouvé et un lien pour ajouter un nouveau produit. #}
                 <tr>
                     <td>{{ product.id }}</td>
                     <td>{{ product.name }}</td>
                     <td>{{ product.description|slice(0,60) }}...</td>
                     <td>{{ product.Price }}</td>
                     <td>
-                    {% if product.stock > 0 %}
-                       {{product.stock}}
+                    {% if product.stock > 0 %} {#si le stock du produit est supérieur à 0, on affiche la quantité de stock disponible. Sinon, on affiche un message indiquant que le produit est en rupture de stock. #}
+                       {{product.stock}} 
                     {% else %}
                         <span class="text-danger">Rupture de stock</span>
                     {% endif %}
                     </td>
                     <td class="d-flex align-items-center gap-2"> 
-                        <a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-success">Montrer</a>
-                        <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary">Modifier</a>
+                        <a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-success">Montrer</a> {#on génère un lien vers la page de détails du produit en utilisant la route 'app_product_show' et en passant l'id du produit en paramètre. Ce lien permet à l'utilisateur de voir les informations détaillées du produit. #}
+                        <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary">Modifier</a> {#on génère un lien vers la page de modification du produit en utilisant la route 'app_product_edit' et en passant l'id du produit en paramètre. Ce lien permet à l'utilisateur de modifier les informations du produit. #}
                         {{ include("product/_delete_form.html.twig") }}
-                        <a class="btn btn-outline-info mt-2" href="">Ajouter du stock
+                        <a href="{{ path('app_product_stock',{'id': product.id}) }}" class="btn btn-outline-info mt-2">Ajouter du stock</a> {#on génère un lien vers la page d'ajout de stock pour le produit en utilisant la route 'app_product_stock' et en passant l'id du produit en paramètre. Ce lien permet à l'utilisateur d'ajouter du stock au produit existant. #}
                     </td>
                 </tr>
             {% else %}
                 <tr>
                     <td colspan="5">Pas de produits trouvés</td>
+
                 </tr>
+                <td>
+                <a href="{{ path('app_product_new') }}">Rentrer un produit</a>
+                
+                </td>
             {% endfor %}
             </tbody>
+            
+
         </table>
 
-        <a href="{{ path('app_product_new') }}">Rentrer un produit</a>
+        
     </div>
 {% endblock %}
