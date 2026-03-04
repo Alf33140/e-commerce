@@ -6,6 +6,7 @@ use App\Entity\AddProductHistory;
 use App\Entity\Product;
 use App\Form\AddProductHistoryType;
 use App\Form\ProductType;
+use App\Repository\AddProductHistoryRepository;
 use App\Repository\ProductRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/product')]
+#[Route('/editor')]
 #[IsGranted('ROLE_ADMIN')] #cette annotation indique que toutes les méthodes de ce contrôleur nécessitent que l'utilisateur ait le rôle ROLE_ADMIN pour y accéder. Cela signifie que seules les utilisateurs ayant ce rôle pourront accéder aux actions définies dans ce contrôleur, telles que l'affichage de la liste des produits, la création d'un nouveau produit, la modification d'un produit existant, etc. Si un utilisateur qui n'a pas le rôle ROLE_ADMIN tente d'accéder à ces actions, il sera redirigé vers une page d'erreur ou une page de connexion en fonction de la configuration de sécurité de l'application.
 final class ProductController extends AbstractController
 {
@@ -84,15 +85,31 @@ final class ProductController extends AbstractController
 #endregion
 #region Edit
     #[Route('/product/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]#route pour modifier un produit
-    public function edit(Request $request, Product $product, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Product $product, SluggerInterface $slugger, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ProductType::class, $product);#on crée un formulaire à partir de la classe ProductType, qui est un formulaire personnalisé pour modifier les produits. Ce formulaire est lié à l'entité Product, ce qui signifie que les données saisies dans le formulaire seront automatiquement mappées à l'entité du produit que nous souhaitons modifier.
         $form->handleRequest($request);#on traite la requête pour le formulaire, ce qui permet de vérifier si le formulaire a été soumis et de récupérer les données saisies par l'utilisateur.
 
-        if ($form->isSubmitted() && $form->isValid()) {#si le formulaire a été soumis et que les données sont valides, on procède à la mise à jour du produit
-            $entityManager->flush();#on effectue la mise à jour en base de données en appelant la méthode flush() de l'entity manager. Cela exécute toutes les opérations en attente, y compris la mise à jour du produit avec les nouvelles données saisies dans le formulaire.
+        if ($form->isSubmitted() && $form->isValid()) { #si le formulaire a été soumis et que les données sont valides, on procède à la création du nouveau produit
+            $image = $form->get('image')->getData();//! on recup l'image et son contenu
+   
+            if ($image) {/*si l'image existe*/
+                $originalName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME); // Nom d'origine de l'image
+                $safeImageName = $slugger->slug($originalName);/* permet de recup des image avec espace dans le nom et l'enlever*/
+                $newFileImageName = $safeImageName.'-'.uniqid().'.'.$image->guessExtension();/*cree un id unique a toute les images meme si elles ont un nom similaire*/
 
-            return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);#on redirige l'utilisateur vers la liste des produits après avoir modifié le produit. La redirection se fait en utilisant la route 'app_product_index', qui correspond à la page d'affichage de la liste des produits. Le code de statut HTTP 303 (See Other) est utilisé pour indiquer que la ressource a été modifiée et que le client doit effectuer une nouvelle requête GET pour récupérer la ressource mise à jour.
+                try { // On tente de déplacer le fichier physiquement sur le serveur
+                    $image->move
+                        ($this->getParameter('image_directory'), // getParameter, crée un dossier et envoie le à cet endroit là ('dans services.yaml')
+                        $newFileImageName);/* on recup l'image et on la renomme et on la stocke dans le repoertoire */
+                }catch (FileException $exception) {}/*en cas d'erreur -> Si le déplacement échoue, on arrive ici*/
+                    $product->setImages($newFileImageName); // set(nouveau nom image)
+                
+            }
+
+            
+            $entityManager->flush();
+            return $this->redirectToRoute('app_product_index');
         }
 
         return $this->render('product/edit.html.twig', [#on rend la vue du formulaire de modification du produit. On passe à la vue l'entité du produit à modifier et le formulaire lui-même pour qu'il puisse être affiché dans la page.
@@ -121,13 +138,15 @@ final class ProductController extends AbstractController
         $form->handleRequest($request);#on traite la requête pour le formulaire, ce qui permet de vérifier si le formulaire a été soumis et de récupérer les données saisies par l'utilisateur.
 
         $product = $productRepository->find($id);#on utilise le repository pour trouver le produit correspondant à l'id passé en paramètre. Cela nous permet de récupérer l'entité du produit auquel nous voulons ajouter du stock.
-        if($form->issubmitted() && $form->isvalid()) {#
+        if($form->issubmitted() && $form->isvalid()) {
 
             if($stockAdd->getQuantity() >0){ #si la quantité saisie est supérieure à 0, on ajoute le stock au produit}
                 $newQuantity = $product->getStock() + $stockAdd->getQuantity(); #on recup la quantité actuelle du produit et on lui ajoute la quantité saisie dans le formulaire
                 $product->setStock($newQuantity);#on met a jour le stock du produit avec la nouvelle quantité
+                $stockAdd->setcreatedAt(new DateTimeImmutable());#on enregistre la date de l'ajout de stock en utilisant la classe DateTimeImmutable pour obtenir la date et l'heure actuelles. Cela nous permet de suivre l'historique des ajouts de stock pour le produit.
+                $stockAdd->setProduct($product);#on associe l'entité AddProductHistory à l'entité du produit en utilisant la méthode setProduct(). Cela permet de lier l'historique des ajouts de stock au produit correspondant, ce qui est important pour suivre les modifications de stock dans le temps.
 
-                $entityManager->persist($product);#on persiste le produit pour enregistrer les modifications du stock
+                $entityManager->persist($stockAdd);#on persiste le produit pour enregistrer les modifications du stock
                 $entityManager->flush();#on effectue la mise à jour en bdd
 
                 $this->addFlash('success','Le stock du produit a été modifié');#on ajoute un message flash de succès pour informer l'utilisateur que le stock a été modifié
@@ -137,9 +156,7 @@ final class ProductController extends AbstractController
                 return $this->redirectToRoute('app_product_stock', ['id'=>$product ->getId()]);#on redirige l'utilisateur vers le formulaire d'ajout de stock pour le même produit afin qu'il puisse saisir une quantité valide
             }
 
-    $stockAdd->setProduct($form->getData()); #on associe l'entité AddProductHistory à l'entité du produit en utilisant la méthode setProduct(). Cela permet de lier l'historique des ajouts de stock au produit correspondant, ce qui est important pour suivre les modifications de stock dans le temps. En associant l'entité AddProductHistory au produit, nous pouvons enregistrer les quantités ajoutées au stock ainsi que la date de chaque ajout, ce qui facilite la gestion du stock et la traçabilité des modifications.
-
-        $stockAdd->setProduct($product); #on associe l'entité AddProductHistory à l'entité du produit en utilisant la méthode setProduct(). Cela permet de lier l'historique des ajouts de stock au produit correspondant, ce qui est important pour suivre les modifications de stock dans le temps. En associant l'entité AddProductHistory au produit, nous pouvons enregistrer les quantités ajoutées au stock ainsi que la date de chaque ajout, ce qui facilite la gestion du stock et la traçabilité des modifications.   
+    
         }
 
         return $this->render('product/addStock.html.twig', #on rend la vue du formulaire d'ajout de stock pour le produit. On passe à la vue l'entité du produit et le formulaire lui-même pour qu'il puisse être affiché dans la page.
@@ -147,6 +164,18 @@ final class ProductController extends AbstractController
         'product' => $product, #on passe à la vue l'entité du produit pour qu'elle puisse être utilisée dans le template, par exemple pour afficher le nom du produit ou d'autres informations pertinentes dans la page d'ajout de stock.
         ]
         );
+    }
+    #[Route('/add/product/{id}/stock/history', name:'app_product_stock_add_history', methods: ['GET','POST'])]
+    public function showHistoryProductStock($id, ProductRepository $productRepository,AddProductHistoryRepository $productHistoryRepository): Response
+    {
+        $product = $productRepository->find($id);#on utilise le repository pour trouver le produit correspondant à l'id passé en paramètre. Cela nous permet de récupérer l'entité du produit pour lequel nous voulons afficher l'historique des ajouts de stock.
+        $stockHistory = $productHistoryRepository->findBy(['product'=>$product], ['id'=>'DESC']);#on utilise le repository pour trouver tous les enregistrements d'historique des ajouts de stock associés au produit en utilisant la méthode findBy(). On spécifie le critère de recherche en utilisant un tableau associatif où la clé est 'product' et la valeur est l'entité du produit que nous avons récupérée précédemment. De plus, on spécifie un ordre de tri pour les résultats en utilisant un autre tableau associatif où la clé est 'id' et la valeur est 'DESC', ce qui signifie que les résultats seront triés par identifiant dans l'ordre décroissant (du plus récent au plus ancien).
+        
+        return $this->render('product/showHistory.html.twig', [#on rend la vue 'product/historyStock.html.twig' en passant l'entité du produit à la vue pour qu'elle puisse afficher les informations du produit et son historique des ajouts de stock.
+           'stockHistories' => $stockHistory,#on passe à la vue l'historique des ajouts de stock pour qu'il puisse être affiché dans le template.
+        
+        
+        ]);
     }
 }
 #endregion

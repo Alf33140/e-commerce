@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Repository\ProductRepository;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -9,16 +11,27 @@ use Symfony\Component\Routing\Attribute\Route;
 final class HomePageController extends AbstractController
 {
     #[Route('/', name: 'app_home_page')]
-    public function index(): Response
+    public function index(ProductRepository $productRepository): Response
     {
-              
+        $products = $productRepository->findAll();
+
+    
         return $this->render('home_page/index.html.twig', [
-            //'controller_name' => 'HomePageController',
+            'products' => $products,
             
             
         ]);
         
     }
     
+    #[Route('/product', name: 'app_ShowProduct', methods: ['GET'])]
+    public function showProductHomepage(): Response
+    {
+        
+        return $this->render('home_page/index.html.twig', [
+            
+        ]);
+        
+    }
     
 }

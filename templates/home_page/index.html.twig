@@ -4,14 +4,30 @@
 
 {% block body %}
 
-<div class="container container-home">
-    <div class='container'>
-        <h1>Viens chercher bonheur dans 'La CAVE A MOMO:myShop' </h1> 
-    </div>
-    <div>
-        <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter au site</a>
-        <a href="{{ path('app_register') }}" class="btn btn-secondary">S'inscrire sur le site</a>
-    </div>
-   
-</div>
-{% endblock %}
+        <div class="container container-home">
+            <div class='container'>
+                <h1>Viens chercher bonheur dans 'La CAVE A MOMO:myShop' </h1> 
+                    
+                    <h2>Liste des produits</h2>
+            
+                <table class="table">
+                    <tbody>
+                    {% for product in products %}
+                        <div class="card" style="width: 18rem;">
+                            <img src="{{ product.images }}" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ product.name }}</h5>
+                                <p class="card-text">{{ product.description }}</p>
+                                <p class="card-text">{{ product.price }} €</p>
+                                <p class="card-text">Stock: {{ product.stock }}</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </table>
+            </div>
+        
+        </div>
+        </tbody>
+        {% endblock %}
+
