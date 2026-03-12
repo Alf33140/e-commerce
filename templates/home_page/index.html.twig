@@ -15,13 +15,14 @@
                         <div class="row">
                             {% for product in products %}
                                 <div class="card" style="width: 18rem;">
-                                    <img src="{{ product.images }}" class="card-img-top">
+                                    <img src="{{ asset('uploads/'~product.images)}}" class="imgproduct card-img-top">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ product.name }}</h5>
-                                        <p class="card-text">{{ product.description }}</p>
+                                        <a class="titleProductionLink" href=><h5 class="card-title">{{ product.name }}</h5></a>
+                                        <p class="card-text">{{ product.description|slice(0,60)}} </p>
                                         <p class="card-text">{{ product.price }} Thunes</p>
                                         <p class="card-text">Stock: {{ product.stock }}</p>
-                                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        <a href="#" class="btn btn-primary">Passe a la Caisse</a>
+                                        
                                     </div>
                                 </div>
                             {% endfor %}

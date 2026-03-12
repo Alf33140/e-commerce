@@ -6,6 +6,7 @@ use App\Entity\AddProductHistory;
 use App\Entity\Product;
 use App\Form\AddProductHistoryType;
 use App\Form\ProductType;
+use App\Form\ProductUpdateType;
 use App\Repository\AddProductHistoryRepository;
 use App\Repository\ProductRepository;
 use DateTimeImmutable;
@@ -87,7 +88,7 @@ final class ProductController extends AbstractController
     #[Route('/product/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]#route pour modifier un produit
     public function edit(Request $request, Product $product, SluggerInterface $slugger, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(ProductType::class, $product);#on crée un formulaire à partir de la classe ProductType, qui est un formulaire personnalisé pour modifier les produits. Ce formulaire est lié à l'entité Product, ce qui signifie que les données saisies dans le formulaire seront automatiquement mappées à l'entité du produit que nous souhaitons modifier.
+        $form = $this->createForm(ProductUpdateType::class, $product);#on crée un formulaire à partir de la classe ProductType, qui est un formulaire personnalisé pour modifier les produits. Ce formulaire est lié à l'entité Product, ce qui signifie que les données saisies dans le formulaire seront automatiquement mappées à l'entité du produit que nous souhaitons modifier.
         $form->handleRequest($request);#on traite la requête pour le formulaire, ce qui permet de vérifier si le formulaire a été soumis et de récupérer les données saisies par l'utilisateur.
 
         if ($form->isSubmitted() && $form->isValid()) { #si le formulaire a été soumis et que les données sont valides, on procède à la création du nouveau produit
