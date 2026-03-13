@@ -1,65 +1,66 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary"data-bs-theme="dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">La Cave à MOMO</a> 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="{{ path('app_home_page') }}">Suspens</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{ path('app_home_page') }}">Page d'Acceuil</a>
+          <a class="nav-link active" aria-current="page" href="{{ path('app_home_page') }}">Home</a>
         </li>
-       
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Categories
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href=" ">Liste des catégories</a></li>
-            <li><a class="dropdown-item" href=" ">Autres</a></li>
-            <li><a class="dropdown-item" href=" ">Autres</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Autres</a></li>
-            <li><a class="dropdown-item" href="#">Autres</a></li>
-            <li><a class="dropdown-item" href="#">Autres</a></li>
-          </ul>
-        </li>
-        
-        {% if is_granted('ROLE_ADMIN') %} 
+        {% if categories is defined %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Categories
+            </a>
+            <ul class="dropdown-menu">
+            {% for categorie in categories %}
+              <li><a class="dropdown-item" href="#">{{categorie.name}}</a></li>
+                {# {% for subCategory in subCategories %}
+                                <li><a class="dropdown-item" href="#">{{subCategory.name}}</a></li>
+                {% endfor %} #}
+            {% endfor %}
+            </ul>
+          </li>
+          {% endif %}
+        {% if is_granted("ROLE_ADMIN") %}
+    {# if is_granted('ROLE_ADMIN') est une condition qui vérifie si l'utilisateur connecté a le rôle ROLE_ADMIN,
+     ce qui permet d'afficher le menu "Admin" uniquement aux utilisateurs ayant ce rôle,
+     assurant ainsi que les fonctionnalités d'administration ne sont accessibles qu'aux utilisateurs autorisés.#}
+
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Admin
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{{ path('app_categorie_new') }}">Ajout des Catégories</a></li>
-            <li><a class="dropdown-item" href="{{ path('app_categorie_index') }}">Gestion des Catégories</a></li>
-            <li><hr class="dropdown-divider"></li> {# trait separateur ds la drop liste #}
-            <li><a class="dropdown-item" href="{{ path('app_subcategorie_index') }}">Gestion des sous-categories</a></li>
-            <li><a class="dropdown-item" href="{{ path('app_subcategorie_new') }}">Ajout des sous-categories</a></li>
-            <li><hr class="dropdown-divider"></li> {# trait separateur ds la drop liste #}
-            <li><a class="dropdown-item" href="{{ path('app_product_index') }}">Gestion des produits</a></li>
-            <li><a class="dropdown-item" href="{{ path('app_product_new') }}">Ajout des produits</a></li>
-            <li><hr class="dropdown-divider"></li> {# trait separateur ds la drop liste #}
-            <li><a class="dropdown-item" href="{{ path('app_user') }}">Utilisateurs</a></li>
+            <li><a class="dropdown-item" href="{{ path('app_categorie_index') }}">Categories Manager</a></li>
+            <li><a class="dropdown-item" href="{{ path('app_categorie_new') }}">Ajouter une nouvelle categorie</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{ path('app_subcategorie_index') }}">Sous-catégories Manager</a></li>
+            <li><a class="dropdown-item" href="{{ path('app_subcategorie_new') }}">Ajouter une sous-catégories</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{ path('app_product_index') }}">Product Manager</a></li>
+            <li><a class="dropdown-item" href="{{ path('app_product_new') }}">Ajouter un produit</a></li>
+              <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Utilisateurs</a></li>
+            
           </ul>
         </li>
         {% endif %}
-         {% if app.user == false %}
+        {% if app.user %}
           <li class="nav-item">
-            <a href="{{ path('app_register') }} " class='nav-link'>S'inscrire</a>
-          </li> 
+            <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+          </li>
+          {% else %}
           <li class="nav-item">
-            <a href="{{ path('app_login') }} " class='nav-link'>Se connecter</a>
-          </li> 
+            <a class="nav-link" href="{{ path('app_register') }}">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
+          </li>
         {% endif %}
-        <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-        </li>
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
     </div>
   </div>
 </nav>
