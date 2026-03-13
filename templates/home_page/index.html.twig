@@ -17,7 +17,7 @@
                                 <div class="card" style="width: 18rem;">
                                     <img src="{{ asset('uploads/'~product.images)}}" class="imgproduct card-img-top">
                                     <div class="card-body">
-                                        <a class="titleProductionLink" href=><h5 class="card-title">{{ product.name }}</h5></a>
+                                        <a href="{{ path('app_home_product_show',{'id':product.id}) }}" class="titleProductionLink" ><h5 class="card-title">{{ product.name }}</h5></a>
                                         <p class="card-text">{{ product.description|slice(0,60)}} </p>
                                         <p class="card-text">{{ product.price }} Thunes</p>
                                         <p class="card-text">Stock: {{ product.stock }}</p>

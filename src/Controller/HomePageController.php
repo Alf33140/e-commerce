@@ -29,12 +29,12 @@ final class HomePageController extends AbstractController
     public function showProduct(Product $product, productRepository $productRepository, CategorieRepository $categorieRepository): Response
     {
         
-        $lastProductsAdded = $productRepository->findBy([],['id'=> 'DESC'],);
+        $lastProductsAdded = $productRepository->findBy([],['id'=> 'DESC'],5);
 
         return $this->render('home_page/show.html.twig', [
             'product'=> $product,
             'lastProductAdded'=> $lastProductsAdded,
-            'categorie' => $categorieRepository->findAll()
+
         ]);
     }
     
