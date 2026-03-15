@@ -16,10 +16,11 @@
             </a>
             <ul class="dropdown-menu">
             {% for categorie in categories %}
-              <li><a class="dropdown-item" href="#">{{categorie.name}}</a></li>
-                {# {% for subCategory in subCategories %}
-                                <li><a class="dropdown-item" href="#">{{subCategory.name}}</a></li>
-                {% endfor %} #}
+              <li><a class="dropdown-item text-uppercase small ls-1" href="#">{{categorie.name}}</a></li>
+              <li><hr class="dropdown-divider border-alpha"></li>
+                {% for subCategorie in categorie.subCategories %}
+                                <li><a class="dropdown-item text-success" href="#">{{subCategorie.name}}</a></li>
+                {% endfor %}
             {% endfor %}
             </ul>
           </li>
