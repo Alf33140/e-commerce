@@ -1,13 +1,19 @@
+{% if pageCount > 1 %}
 <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-center">
-    <li class="page-item disabled">
-      <a href="{{ path(route, query|merge({(pageParameterName):previous})) }}" class="page-link">Previous</a>
+    {% if previous is defined %}
+    <li class="page-item">
+      <a href="{{ path(route, query|merge({(pageParameterName):previous})) }}" class="page-link">Précédent</a>
     </li>
+    {% endif %}
     <li class="page-item"><a class="page-link" href="#">1</a></li>
     <li class="page-item"><a class="page-link" href="#">2</a></li>
     <li class="page-item"><a class="page-link" href="#">3</a></li>
+    {% if next is defined %}
     <li class="page-item">
-      <a class="page-link" href="#">Next</a>
+      <a href="{{ path(route, query|merge({(pageParameterName):next})) }}" class="page-link">Suivant</a>
     </li>
+    {% endif %}
   </ul>
 </nav>
+{% endif %}
