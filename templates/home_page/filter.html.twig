@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Surplus fédéral de Charleston{% endblock %}
+
+{% block body %}
+<div class="container container-home">
+    <h1>Viens chercher bonheur dans 'La CAVE A MOMO:myShop'</h1> 
+    
+    <h2>Liste des produits</h2>
+    
+    {# Utilisation du nom défini dans le controller #}
+    <h3>{{ subCategory.name }}</h3>
+
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    {# Vérifie si c'est product.images ou product.image au singulier dans ton entité Product #}
+                    <img src="{{ asset('uploads/' ~ product.images) }}" class="imgproduct card-img-top">
+                    <div class="card-body">
+                        <a href="{{ path('app_home_product_show', {'id': product.id}) }}" class="titleProductionLink">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                        </a>
+                        <p class="card-text">{{ product.description|slice(0, 60) }}...</p>
+                        <p class="card-text">{{ product.price }} Thunes</p>
+                        <p class="card-text">Stock: {{ product.stock }}</p>
+                        <a href="#" class="btn btn-primary">Passe à la Caisse</a>
+                        <a href="" class="btn btn-dark">revenir a la liste</a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p>Aucun produit trouvé pour cette sous-catégorie.</p>
+        {% endfor %}
+    </div>
+    
+</div>
+{% endblock %}

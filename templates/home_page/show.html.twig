@@ -11,16 +11,18 @@
                         <div class="col-md-4">
                         <img src="{{ asset('uploads/'~product.images)}}" class="card-img" alt="...">
                         </div>
-                        <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ product.name }}</h5>
-                            <p class="card-text">{{ product.description }}</p>
-                            <a href="" class="btn btn-dark">Ajouter au panier</a>
-                            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                    <p class="card-text">{{ product.description }}</p>
+                                    <p class="card-text">{{ product.price }} Thunes</p>
+                                    <a href="" class="btn btn-primary">Ajouter au panier</a>
+                                    <a href="" class="btn btn-dark">Revenir à la liste</a>
+                                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                                </div>
+                                
+                            </div>
                         </div>
-                            
-                        </div>
-                    </div>
                     </div> 
                     
                 </div>
@@ -36,7 +38,7 @@
                                 <p class="card-text">{{ product.description|slice(0,60)}} </p>
                                 <p class="card-text">{{ product.price }} Thunes</p>
                                 <p class="card-text">Stock: {{ product.stock }}</p>
-                                <a href="" class="btn btn-dark">Ajouter au panier</a>
+                                <a href="" class="btn btn-primary">Ajouter au panier</a>
                                 <a href="" class="btn btn-dark">revenir a la liste</a>
                             </div>
                         </div>
