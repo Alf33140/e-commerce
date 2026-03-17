@@ -19,7 +19,8 @@
                                         <p class="card-text">{{ product.description|slice(0,60)}} </p>
                                         <p class="card-text">{{ product.price }} Thunes</p>
                                         <p class="card-text">Stock: {{ product.stock }}</p>
-                                        <a href="#" class="btn btn-primary">Passe a la Caisse</a>
+                                        <h3> {{product.price}} Thunes</h3>
+                                        <a href="{{ path('app_cart_new',{'id':product.id})}}" class="btn btn-primary">Passe a la Caisse</a>
                                         
                                     </div>
                                 </div>

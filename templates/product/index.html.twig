@@ -36,7 +36,7 @@
                         <a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-success">Montrer</a> {#on génère un lien vers la page de détails du produit en utilisant la route 'app_product_show' et en passant l'id du produit en paramètre. Ce lien permet à l'utilisateur de voir les informations détaillées du produit. #}
                         <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary">Modifier</a> {#on génère un lien vers la page de modification du produit en utilisant la route 'app_product_edit' et en passant l'id du produit en paramètre. Ce lien permet à l'utilisateur de modifier les informations du produit. #}
                         {{ include("product/_delete_form.html.twig") }}
-                        <a href="{{ path('app_product_stock',{'id': product.id}) }}" class="btn btn-outline-info mt-2">Ajouter du stock</a> {#on génère un lien vers la page d'ajout de stock pour le produit en utilisant la route 'app_product_stock' et en passant l'id du produit en paramètre. Ce lien permet à l'utilisateur d'ajouter du stock au produit existant. #}
+                        <a href="{{ path('app_product_stock',{'id': product.id}) }}" class="btn btn-outline-info ">Ajouter du stock</a> {#on génère un lien vers la page d'ajout de stock pour le produit en utilisant la route 'app_product_stock' et en passant l'id du produit en paramètre. Ce lien permet à l'utilisateur d'ajouter du stock au produit existant. #}
                     </td>
                 </tr>
             {% else %}
