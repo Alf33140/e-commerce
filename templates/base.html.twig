@@ -20,8 +20,11 @@
         {% endblock %}
         
         {% block body %}{% endblock %}
-        {% block footer %}
-            {{ include('layout/footer.html.twig') }}
-        {% endblock %}
+        
     </body>
+  
+    {% block footer %}
+        {{ include('layout/footer.html.twig') }}
+    {% endblock %}
+    
 </html>
