@@ -24,7 +24,7 @@
 
     <a href="{{ path('app_city_index') }}">back to list</a>
 
-    <a href="{{ path('app_city_edit', {'id': cost.id}) }}">edit</a>
+    <a href="{{ path('app_city_edit', {'id': cost.id}) }}class="btn btn-primary mt-4 mb-2">edit</a>
 
     {{ include('city/_delete_form.html.twig') }}
 {% endblock %}
