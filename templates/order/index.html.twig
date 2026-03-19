@@ -25,9 +25,35 @@
     </div> 
     <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>   
     <script> 
+    // lorsque le document est pret (c est a dire que la page a fini de charger)
     $(document).ready(function(){
             const citySelector =$('#order_city');
             const cityValue = citySelector.val();
+            // on construit l url ajax en fonction de la valeur CityValue
+            const url = 'http://localhost:8000/city/${cityValue}/shipping/cost';
+           function ajaxRequest(url){ 
+            //requete ajax
+            // on envoie une fonction de type ajax de type GET a l url construite
+            $.ajax({
+                url:url,
+                // type GET car on va recuperer les donnees du serveur
+                type:'GET',
+                // fonction appelee en cas de succes
+                success:function(response){
+                    // on parse le contenu de la reponse en JSON pour le rendre exploitable en javascript
+                    const newResponse = JSON.parse(response)
+                    //on verifie que le contenu et egal a 200 (OK)
+                    if (parseInt(newResponse.statuts) === 200){
+                    // on affiche le statut de la reponse dans la console pour deboguage
+                        console.log(newResponse.status)
+                    }
+                },
+                // fonction appellée en cas d erreur
+                erreor:function(xhr,status,error){
+
+                }
+            })}
+            
     })
     </script>
 {% endblock %}
