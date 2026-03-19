@@ -15,12 +15,19 @@
                 </div>
                 
                     <div class="col-4 mt-5">
-                        <h3> Montant a payer:{{total}} Thunes</h3>
+                        <span class='mb-2'>Montant a payer:</span>
+                        <h3> {{total}} Thunes</h3</span>>
+                        <span>Frais de Livraison:</span>
                     </div>
-                    <div class="col-4 mt-5">
-                        <h3> Frais de Livraison:...Thunes</h3>
-                    </div>
+                    
                 
         </div>
-    </div>    
+    </div> 
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>   
+    <script> 
+    $(document).ready(function(){
+            const citySelector =$('#order_city');
+            const cityValue = citySelector.val();
+    })
+    </script>
 {% endblock %}

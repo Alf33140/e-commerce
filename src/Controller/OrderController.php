@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use App\Entity\Cost;
 use App\Entity\Order;
 use App\Form\OrderType;
 use App\Repository\ProductRepository;
@@ -45,5 +45,9 @@ final class OrderController extends AbstractController
         ]);
     }
 
-    
+    #[Route('/city/{id}/shipping/cost',name: 'app-shipping_cost')]
+    public function cityShippingCost(Cost $city): Response
+    {
+        dd($city);
+    }
 }
