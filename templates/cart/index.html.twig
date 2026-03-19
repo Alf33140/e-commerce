@@ -31,7 +31,11 @@
                 </div>
         </table> 
         {% if total > 0 %}
-            <h2>Votre total: {{ total }} Thunes </h2>
+            <span class='mb-2'>Montant à payer:</span>
+            <h2>Votre panier: {{ total }} Thunes </h2>
+            <span class='mb-2'>Frais de livraison:</span>
+
+
                 <div class="row">
                     <a href=" " class="btn btn-success col-2 me-2 mx-2 mt-2" >Valider le panier</a>
                     <a href="{{ path('app_remove_all_cart') }}" class="btn btn-danger col-2 mt-2" >Supprimer le panier</a>
