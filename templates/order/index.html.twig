@@ -10,19 +10,23 @@
             
                 <div class="col-4">
                     {{form_start(form) }}
-                        <input type="submit" class="btn btn-success" value="Continuer">
+                    {{ form_widget(form) }}
+                        <input type="submit" class="btn btn-success mt-3" value="Continuer">
                     {{ form_end(form) }}
                 </div>
             </div>    
                     <div class="col-4 mt-5">
-                        <span class='text-light mb-2'>Montant a payer:</span>
-                        <h3> {{total}} Thunes</h3>
-                        <span class='text-light mb-2'>Frais de Livraison:</span>
+                            <span class='text-light mb-2'>Montant a payer:</span>
+                        <h3 id="card-price"> {{total}} Thunes</h3>
+                            <span class='text-light mb-2'>Frais de Livraison:</span>
                         <h3>
                             <span class='text-light mb-2' id="shippingCost"></span>
                             thunes
                         </h3>
-                        <span class='text-light mb-2'> Montant total à payer:</span>
+                            <span class='text-light mb-2'> Montant total à payer:</span>
+                        <h3>
+                            <span class="total-price"></span>Thunes
+                        </h3>
                     </div>
                     
                 
@@ -52,6 +56,13 @@
                     // on affiche le statut de la reponse dans la console pour deboguage
                         console.log(newResponse.status)
                         $("#shippingCost").text(newResponse.content)
+
+                    const cardPrice = parseInt($('#card-price').text());
+                    const shippingCost = parseInt($('#shippingCost').text());
+                    $('.total-price').text(cardPrice+shippingCost);
+
+                    console.log(cardPrice)
+                    console.log(shippingCost)
                     }
                 },
                 // fonction appellée en cas d erreur
@@ -64,7 +75,8 @@
             ajaxRequest(url)
 
             citySelector.on('change',function() {
-            alert($(this).val())
+                const urlUpdate = `/city/$(this).val()}/shipping/cost`;
+                alert(urlUpdate)
         })
         }
             
