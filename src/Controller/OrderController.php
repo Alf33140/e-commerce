@@ -5,8 +5,7 @@ use App\Entity\Cost;
 use App\Entity\Order;
 use App\Form\OrderType;
 use App\Repository\ProductRepository;
-use App\Repository\OrderRepository;
-use Doctrine\ORM\EntityManagerInterface;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,10 +44,10 @@ final class OrderController extends AbstractController
         ]);
     }
 
-    #[Route('/city/{id}/shipping/cost',name: 'app-shipping_cost')]
+    #[Route('/city/{id}/shipping/cost',name: 'app_city_shipping_cost')]
     public function cityShippingCost(Cost $city): Response
     {
-        $cityShippingPrice = $city->getShippingCost();
+        $cityShippingPrice = $city->getCost();
 
         return new Response($cityShippingPrice);
     }
