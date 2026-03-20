@@ -21,7 +21,7 @@
                             <span class='text-light mb-2'>Frais de Livraison:</span>
                         <h3>
                             <span class='text-light mb-2' id="shippingCost"></span>
-                            thunes
+                            Thunes
                         </h3>
                             <span class='text-light mb-2'> Montant total à payer:</span>
                         <h3>
@@ -75,8 +75,9 @@
             ajaxRequest(url)
 
             citySelector.on('change',function() {
-                const urlUpdate = `/city/$(this).val()}/shipping/cost`;
-                alert(urlUpdate)
+                const urlUpdate = `/city/${$(this).val()}/shipping/cost`;
+                
+                ajaxRequest(urlUpdate)
         })
         }
             
