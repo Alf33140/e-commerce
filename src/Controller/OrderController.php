@@ -34,7 +34,7 @@ final class OrderController extends AbstractController
                 return $item['product']->getPrice() * $item['quantity'];
             }, $cartWithData));
 
-        $order = $newOrder = new Order();
+        $order = new Order();
         $form = $this->createForm(OrderType::class, $order);
         $form->handleRequest($request);
         
@@ -49,6 +49,6 @@ final class OrderController extends AbstractController
     {
         $cityShippingPrice = $city->getCost();
 
-        return new Response($cityShippingPrice);
+        return new Response(json_encode(['status'=>200, "message"=>'on', 'content'=> $cityShippingPrice]));
     }
 }

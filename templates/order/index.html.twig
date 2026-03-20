@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Index des Commandes{% endblock %}
+{% block title %}Commande en cours{% endblock %}
 
 {% block body %}
     <div class="container">
         <div class="row">
             <div class="col-8">
-                <h1 class="mt-4 mb-4"> Order index</h1>
+                <h1 class="mt-4 mb-4"> Commande:</h1>
             
                 <div class="col-4">
                     {{form_start(form) }}
@@ -22,6 +22,7 @@
                             <span class='text-light mb-2' id="shippingCost"></span>
                             thunes
                         </h3>
+                        <span class='text-light mb-2'> Montant total à payer:</span>
                     </div>
                     
                 
@@ -34,7 +35,7 @@
             const citySelector =$('#order_city');
             const cityValue = citySelector.val();
             // on construit l url ajax en fonction de la valeur CityValue
-            const url = '/city/${cityValue}/shipping/cost';
+            const url = `/city/${cityValue}/shipping/cost`;
            function ajaxRequest(url){ 
             //requete ajax
             // on envoie une fonction de type ajax de type GET a l url construite
@@ -47,7 +48,7 @@
                     // on parse le contenu de la reponse en JSON pour le rendre exploitable en javascript
                     const newResponse = JSON.parse(response)
                     //on verifie que le contenu et egal a 200 (OK)
-                    if (parseInt(newResponse.statuts) === 200){
+                    if (parseInt(newResponse.status) === 200){
                     // on affiche le statut de la reponse dans la console pour deboguage
                         console.log(newResponse.status)
                         $("#shippingCost").text(newResponse.content)
@@ -58,15 +59,15 @@
 
                 }
             })
+           }
             //appel de la fonction Ajax
             ajaxRequest(url)
 
-
             citySelector.on('change',function() {
-            alert('hello world')
+            alert($(this).val())
         })
         }
             
-    })
+    )
     </script>
 {% endblock %}

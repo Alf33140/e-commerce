@@ -19,7 +19,7 @@ class Cost
     private ?string $city = null;
 
     #[ORM\Column(length: 20)]
-    private ?string $cost = null;
+    private ?float $cost = null;
 
     /**
      * @var Collection<int, Order>
@@ -49,12 +49,12 @@ class Cost
         return $this;
     }
 
-    public function getCost(): ?string
+    public function getCost(): ?float
     {
         return $this->cost;
     }
 
-    public function setCost(string $cost): static
+    public function setCost(float $cost): static
     {
         $this->cost = $cost;
 
