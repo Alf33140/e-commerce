@@ -35,9 +35,9 @@
             <h2>Votre panier: {{ total }} Thunes </h2>
             <span class='mb-2'>Frais de livraison:</span>
 
-
-                <div class="row">
-                    <a href=" " class="btn btn-success col-2 me-2 mx-2 mt-2" >Valider le panier</a>
+{# dta-turbo='false' sert a lancer la requete ajax pour le chargement des frais de livraison et le montant a payer au clic valider la commande #}
+                <div class="row"> 
+                    <a data-turbo='false' href="{{ path('app_order') }} " class="btn btn-success col-2 me-2 mx-2 mt-2" >Valider le panier</a>
                     <a href="{{ path('app_remove_all_cart') }}" class="btn btn-danger col-2 mt-2" >Supprimer le panier</a>
                 </div> 
         {% endif %}

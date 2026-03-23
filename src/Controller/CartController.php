@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\ProductRepository;
+use App\Service\Cart;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -20,30 +21,33 @@ final class CartController extends AbstractController
     } 
 
     #[Route('/cart', name: 'app_cart', methods: ['GET'])]
-    public function index(SessionInterface $session): Response
+    public function index(SessionInterface $session,Cart $cart): Response
     {
-        // on recupere les donnees du panier en session, ou un tableau vide si il n'y a rien
-        $cart = $session->get('cart',[]);
-        // Initialisation du tableau pour stocker les données du panier avec les informations
-        $cartWithData = [];
-        //boucle sur les éléments du panier pour récupérer les informations du produit
-        foreach ($cart as $id => $quantity) {
-            //récupère le produit correspondant à l'id et la quantité
-            $cartWithData[] = [
-                'product'=> $this->productRepository->find($id), //récup le produit via son id
-                'quantity'=> $quantity // quantité du produit dans le panier
-            ];
-            }//calcul total du tableau
-            $total = array_sum(array_map(function ($item){
-            // pour chaque elements du panier , multiplie par le prix du produit par la quantité
-                return $item['product']->getPrice() * $item['quantity'];
-            }, $cartWithData));
+        $data = $cart->getCart($session);
+    // // on recupere les donnees du panier en session, ou un tableau vide si il n'y a rien
+        // $cart = $session->get('cart',[]);
+        // // Initialisation du tableau pour stocker les données du panier avec les informations
+        // $cartWithData = [];
+        // //boucle sur les éléments du panier pour récupérer les informations du produit
+        // foreach ($cart as $id => $quantity) {
+        //     //récupère le produit correspondant à l'id et la quantité
+        //     $cartWithData[] = [
+        //         'product'=> $this->productRepository->find($id), //récup le produit via son id
+        //         'quantity'=> $quantity // quantité du produit dans le panier
+        //     ];
+        //     }//calcul total du tableau
+        //     $total = array_sum(array_map(function ($item){
+        //     // pour chaque elements du panier , multiplie par le prix du produit par la quantité
+        //         return $item['product']->getPrice() * $item['quantity'];
+        //     }, $cartWithData));
 
            // dd($cartWithData);
            //Rendu de la vue pour afficher le panier
         return $this->render('cart/index.html.twig', [
-            'items' =>$cartWithData,
-            'total'=>$total
+            //'items' =>$cartWithData,
+            //'total'=>$total
+            'items' =>$data['cart'],
+            'total'=>$data['total']
         ]);     
     
     }
