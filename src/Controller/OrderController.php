@@ -114,4 +114,24 @@ final class OrderController extends AbstractController
         // 'items' => $items
     ]);
     }
+    #[Route('/editor/order/{id}/is-completed/update', name: 'app_orders_is-completed-update')]
+    public function isCompletedUpdate($id, OrderRepository $orderRepository, EntityManagerInterface $entityManagerInterface)
+    {
+        $order = $orderRepository->find($id);
+        $order->setIsCompleted(true);
+        $entityManagerInterface->flush();
+        $this->addFlash('success', 'La livraison a été enregistré avec success');
+        
+        return $this->redirectToRoute('app_orders_show');
+       
+    }
+    #[Route('/editor/order/{id}/delete', name: 'app_orders_delete')]
+    public function deleteOrder(Order $order, EntityManagerInterface $entityManager):Response
+    {
+        $entityManager->Remove($order);
+        $entityManager->flush();
+         $this->addFlash('danger', 'la commande a été supprimée avec success');
+
+        return $this->redirectToroute('app_orders_show');
+    }
 }
