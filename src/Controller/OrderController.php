@@ -3,14 +3,16 @@
 namespace App\Controller;
 use App\Entity\Cost;
 use App\Entity\Order;
-
 use App\Entity\OrderProduct;
 use App\Form\OrderType;
+use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use App\Service\Cart;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Loader\Configurator\paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -20,11 +22,11 @@ use Symfony\Component\Routing\Attribute\Route;
 final class OrderController extends AbstractController
 {
     #[Route('/order', name: 'app_order', methods: ['GET', 'POST'])]
-    public function index(EntityManagerInterface $entityManager, Request $request, SessionInterface $session, ProductRepository $productRepository,Cart $cart): Response
+    public function index(EntityManagerInterface $entityManager, Request $request, SessionInterface $session, OrderRepository $orderRepository,Cart $cart): Response
     {
         // on recupere les donnees du penier ds la session
         $data = $cart->getCart($session);
-        
+       
         // $cart = $session->get('cart',[]);
         // // Initialisation du tableau pour stocker les données du panier avec les informations
         // $cartWithData = [];
@@ -75,6 +77,7 @@ final class OrderController extends AbstractController
                 }   
                 $session->set('cart', []);
                 return $this->redirectToRoute('app_order_message');
+                
                 }
             }
 
@@ -97,8 +100,18 @@ final class OrderController extends AbstractController
         return $this->render('order/order_message.html.twig');
     }
     #[Route('/editor/order', name:'app_orders_show')]
-    public function getAllOrder():response
+    public function getAllOrder(OrderRepository $orderRepository,Request $request, PaginatorInterface $paginator):Response
     {
-        return $this->render('order/orders.html.twig');
+         $data =$orderRepository->findBy([],['id'=>"DESC"]);
+            $orders = $paginator->paginate(
+            $data,
+            $request->query->getInt('page',1),
+            2
+    );  
+
+        return $this->render('order/orders.html.twig', [
+        'orders' => $orders,
+        // 'items' => $items
+    ]);
     }
 }
