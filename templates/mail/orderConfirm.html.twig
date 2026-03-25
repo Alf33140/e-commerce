@@ -1,0 +1,66 @@
+
+{% block body %}
+<div class="container">
+        
+            <p class="text-center mt-5">
+            <span class="text-white">Confirmation de la MOMO Facture n°: {{order.id}}</span>
+            {# <span>Date: {{order.createAt|date }}</span> #}
+                <table class="table table-bordered">
+                <tbody>
+                <span class='text-white'>Informations du Client</span>
+                    <thead>
+                        <tr>
+                            <td>Prenoms</td>
+                            <td>Nom</td>
+                            <td>Téléphone</td>
+                            <td>Adresse</td>
+                            <td>Ville</td>
+                        </tr>
+                    </thead>
+                </tbody>
+
+                    <tr>
+                        <td>{{order.firstName}}</td>
+                        <td>{{order.lastName}}</td>
+                        <td>{{order.phone}}</td> 
+                        <td>{{order.Adresse}}</td>
+                       <td>{{order.city.city}}</td> 
+                    </tr>
+                
+                </table>
+            
+                <spa class="text-white">Détail de la commande</span>
+            
+                    <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <td>Image du Produit</td>
+                                    <td>Nom du Produit</td>
+                                    <td>quantité de produit</td>
+                                    <td>Prix du Produit</td>
+                                    <td>Prix total</td>
+                                </tr>
+                            </thead>
+                        <tbody>
+               {% for item in order.orderProducts %}   
+                        <tr>
+                            <td>
+                                <img style="width: 80px" src="{{ asset('uploads/'~item.product.images)}}">
+                            </td>
+                            <td>{{item.product.name}}</td>
+                             <td>{{item.quantity}}</td>
+                            <td>{{item.product.price}}</td>
+                            <td>{{item.product.price * item.quantity}}</td> 
+                  </tr>
+                    
+                   {% endfor %} 
+                        </tbody>
+                    </table> 
+                <span class="text-white">Frais de livraisons : {{ order.city.Cost }} Thunes</span>
+                <h5 class='mb-5'>Total à payer : {{ order.totalPrice }} Thunes</h5> 
+              
+                
+        </p>
+    </div>
+     
+{% endblock %}

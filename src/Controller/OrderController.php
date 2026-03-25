@@ -16,11 +16,16 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
-
+use Symfony\Component\Mailer\MailerInterface;
 
 final class OrderController extends AbstractController
 {
+    public function __construct(private MailerInterface $mailer){
+
+    }
+
     #[Route('/order', name: 'app_order', methods: ['GET', 'POST'])]
     public function index(EntityManagerInterface $entityManager, Request $request, SessionInterface $session, OrderRepository $orderRepository,Cart $cart): Response
     {
@@ -76,6 +81,19 @@ final class OrderController extends AbstractController
                     }
                 }   
                 $session->set('cart', []);
+
+                $html =$this->renderView('mail/orderConfirm.html.twig', [
+                    'order' => $order   // on recupère le$order apres le flush donc on a toutes les infos
+                ]);
+                $email = (new Email())
+                ->from('MomoSite@gmail.com')
+                //->to('to@gmail.com')
+                ->to($order->getemail())
+                ->subject('Confirmation de réception de commande')
+                ->html($html);
+                $this ->mailer->send($email);
+
+                // redirection vers la page du panier
                 return $this->redirectToRoute('app_order_message');
                 
                 }
