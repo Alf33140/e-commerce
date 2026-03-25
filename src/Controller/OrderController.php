@@ -8,6 +8,7 @@ use App\Form\OrderType;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use App\Service\Cart;
+use App\Service\StripePayment;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -16,9 +17,9 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Mailer\MailerInterface;
 
 final class OrderController extends AbstractController
 {
@@ -97,6 +98,12 @@ final class OrderController extends AbstractController
                 return $this->redirectToRoute('app_order_message');
                 
                 }
+                $paymentStripe = new StripePayment(); // On importe notre service avec sa classe
+                $shippingCost = $order->getCity()->getCost();
+                $paymentStripe->startPayment($data, $shippingCost); // On importe le panier donc $data
+                $stripeRedirectUrl = $paymentStripe->getStripeRedirectUrl();
+                
+                return $this->redirect($stripeRedirectUrl);
             }
 
             return $this->render('order/index.html.twig', [

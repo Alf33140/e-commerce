@@ -9,7 +9,8 @@
                 <h1 class="mt-4 mb-4"> Commande:</h1>
             
                 <div class="col-4">
-                    {{form_start(form) }}
+                    {{ form_start(form, {'attr': {'data-turbo': 'false'}}) }} 
+                    {# {{form_start(form) }} on remplace par la ligne d au dessus pour une acceptation sur stripe  #}
                     {{ form_widget(form) }}
                         <input type="submit" class="btn btn-success mt-3" value="Continuer">
                     {{ form_end(form) }}
