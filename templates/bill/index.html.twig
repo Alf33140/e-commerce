@@ -1,31 +1,19 @@
-{% extends 'base.html.twig' %}
+{# {% extends 'base.html.twig' %} #}
 
-{% block title %}Liste des commandes{% endblock %}
+{# {% block title %}Hello BillController!{% endblock %} #}
 
 {% block body %}
- 
-{# {% for order in orders %}
-
-    {% for item in order.orderProducts %} 
-    {{ dump(item) }}
-    {% endfor %}
-{% endfor %} #}
-
-        <div class="container">
-        {% for order in orders %}
+<div class="container">
+        
             <p class="text-center mt-5">
-            <span class="text-white"> Commande n°: {{order.id}}</span>
-            {% if order.isCompleted == true %}
-                <span class="badge bg-success border border-success text-white">Commande livrée</span>
-                {% else %}
-                    <span class="badge bg-danger text-white">Commande non livrée</span>
-            {% endif %}
+            <span class="text-white"> MOMO Facture n°: {{order.id}}</span>
+            
                 <table class="table table-bordered">
                 <tbody>
                 <span class='text-white'>Informations du Client</span>
                     <thead>
                         <tr>
-                            <td>Prenom</td>
+                            <td>Prenoms</td>
                             <td>Nom</td>
                             <td>Téléphone</td>
                             <td>Adresse</td>
@@ -44,7 +32,6 @@
                 
                 </table>
             
-
                 <spa class="text-white">Détail de la commande</span>
             
                     <table class="table table-striped">
@@ -75,18 +62,28 @@
                     </table> 
                 <span class="text-white">Frais de livraisons : {{ order.city.Cost }} €</span>
                 <h5 class='mb-5'>Total à payer : {{ order.totalPrice }} €</h5> 
-                {{ include('layout/_flash_message.html.twig') }}
-                {# condition de disparition du bouton si la livraison est realisée #}
-                    {% if order.isCompleted != true %}  
-                        <a href="{{ path('app_orders_is-completed-update',{'id':order.id})}}" class="btn btn-primary">Marquer comme livrée</a>
-                    {% endif %}
-                        <a onclick="return confirm ('Voulez-vous vraiment supprimer cette commande?')" href="{{ path('app_orders_delete',{'id':order.id})}}" class="btn btn-danger">Supprimer la commande</a>
-                    <a href="{{ path('app_bill',{'id':order.id})}}" class="btn btn-primary">Imprimer la facture</a>
-            {% endfor %}   
+              
+                
         </p>
     </div>
-     <div class='mt-5'> mt marging-top
-         {{ knp_pagination_render(orders, 'layout/pagination_template.html.twig')}} 
-
-    </div> 
+     
 {% endblock %}
+
+<style>
+    table{
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td{
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    thead{
+        background: #f2f2f2;
+    }
+    tbody tr:nth-child(odd){
+        background: #f9f9f9
+    }
+    
+</style>
