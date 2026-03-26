@@ -54,13 +54,15 @@ final class OrderController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($order->isPayOnDelivery()){
+           
                 if(!empty($data['total'])){
                 //dd($order);
 
                 //on defini le prix total de la commande
                     $order->setTotalPrice($data['total']);
                     $order ->setCreatedAt(new \DateTimeImmutable());
+                    $order ->setisPaymentCompleted(0);
+                    
                     $entityManager->persist($order);
                     $entityManager->flush();
                 
@@ -73,38 +75,39 @@ final class OrderController extends AbstractController
                         $orderProduct = new OrderProduct();
                         // pn definit la commande pour le produit de la commande
                         $orderProduct->setOrder($order);
-                        $orderProduct->setOrder($order);
                         $orderProduct->setProduct($value['product']);
                         $orderProduct->setQuantity($value['quantity']);
                         // on enregistre le produit de la commande
                         $entityManager->persist($orderProduct);
                         $entityManager->flush();
                     }
+                    
                 }   
-                $session->set('cart', []);
+                    if ($order->isPayOnDelivery()){
+                        $session->set('cart', []);
 
-                $html =$this->renderView('mail/orderConfirm.html.twig', [
-                    'order' => $order   // on recupère le$order apres le flush donc on a toutes les infos
-                ]);
-                $email = (new Email())
-                ->from('MomoSite@gmail.com')
-                //->to('to@gmail.com')
-                ->to($order->getemail())
-                ->subject('Confirmation de réception de commande')
-                ->html($html);
-                $this ->mailer->send($email);
+                        $html =$this->renderView('mail/orderConfirm.html.twig', [
+                            'order' => $order   // on recupère le$order apres le flush donc on a toutes les infos
+                        ]);
+                        $email = (new Email())
+                        ->from('MomoSite@gmail.com')
+                        //->to('to@gmail.com')
+                        ->to($order->getemail())
+                        ->subject('Confirmation de réception de commande')
+                        ->html($html);
+                        $this ->mailer->send($email);
 
-                // redirection vers la page du panier
-                return $this->redirectToRoute('app_order_message');
+                        // redirection vers la page du panier
+                        return $this->redirectToRoute('app_order_message');
                 
+                    }// quand c est false
+                    $paymentStripe = new StripePayment(); // On importe notre service avec sa classe
+                    $shippingCost = $order->getCity()->getCost();
+                    $paymentStripe->startPayment($data, $shippingCost, $order->getId()); // On importe le panier donc $data
+                    $stripeRedirectUrl = $paymentStripe->getStripeRedirectUrl();
+                
+                    return $this->redirect($stripeRedirectUrl);
                 }
-                $paymentStripe = new StripePayment(); // On importe notre service avec sa classe
-                $shippingCost = $order->getCity()->getCost();
-                $paymentStripe->startPayment($data, $shippingCost); // On importe le panier donc $data
-                $stripeRedirectUrl = $paymentStripe->getStripeRedirectUrl();
-                
-                return $this->redirect($stripeRedirectUrl);
-            }
 
             return $this->render('order/index.html.twig', [
                 'form' => $form->createView(),

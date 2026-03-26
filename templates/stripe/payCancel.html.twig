@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiement de la Commande{% endblock %}
+
+{% block body %}
+    <div class="container d-flex justify-content-center mt-5">
+        
+        <div class="bg-white rounded-lg shadow p-5 text-center" style="max-width: 600px; width: 100%;">
+            
+            <div class="mb-4 d-flex justify-content-center">
+                <div class="mb-4">
+                    <img src="{{ asset('uploads/cancel.png') }}" class="img-fluid" alt="Succès" style="max-height: 150px;">
+                </div>
+            </div>
+            
+            <h2 class="text-success font-weight-bold mb-4">Le paiement n'a pas pu être réalisé</h2>
+            
+            <p class="text-muted mb-5">
+                Veuillez vérifier et rééssayer l'opération. 
+            </p>
+
+            <div class="mt-4">
+                <a href="{{ path('app_stripe') }}" class="btn btn-danger btn-lg px-5">Retour à l'accueil</a>
+            </div>
+            
+        </div>
+    </div>
+{% endblock %}

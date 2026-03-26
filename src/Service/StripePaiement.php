@@ -15,7 +15,7 @@ class StripePayment
         Stripe::setApiVersion('2024-06-20'); //on gère la version de Stripe
     }
 
-    public function startPayment($cart, $shippingCost){
+    public function startPayment($cart, $shippingCost,$orderId){
         //dd($cart);
        // Récupération des produits du panier
         $cartProducts = $cart['cart']; 
@@ -72,7 +72,7 @@ class StripePayment
             ],
             'payment_intent_data' => [
                 'metadata' => [
-                 
+                'orderId' =>$orderId // id de la commande
                 ]
             ]
             

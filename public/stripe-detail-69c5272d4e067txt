@@ -1,0 +1,79 @@
+Stripe\PaymentIntent JSON: {
+    "id": "pi_3TFD4aPmVcGSsjw20wfM2mY7",
+    "object": "payment_intent",
+    "amount": 44200,
+    "amount_capturable": 0,
+    "amount_details": {
+        "shipping": {
+            "amount": 0,
+            "from_postal_code": null,
+            "to_postal_code": null
+        },
+        "tax": {
+            "total_tax_amount": 0
+        },
+        "tip": []
+    },
+    "amount_received": 44200,
+    "application": null,
+    "application_fee_amount": null,
+    "automatic_payment_methods": null,
+    "canceled_at": null,
+    "cancellation_reason": null,
+    "capture_method": "automatic_async",
+    "client_secret": "pi_3TFD4aPmVcGSsjw20wfM2mY7_secret_3v7Choiogvks4EjyNpkqUjokR",
+    "confirmation_method": "automatic",
+    "created": 1774528300,
+    "currency": "eur",
+    "customer": null,
+    "customer_account": null,
+    "description": null,
+    "excluded_payment_method_types": null,
+    "last_payment_error": null,
+    "latest_charge": "ch_3TFD4aPmVcGSsjw205ra2b3y",
+    "livemode": false,
+    "metadata": [],
+    "next_action": null,
+    "on_behalf_of": null,
+    "payment_details": {
+        "customer_reference": null,
+        "order_reference": "cs_test_b19hxCqNcoviKyHDK27hLrbU8QyeSvXnLCk1j2tkjsnNb5AezCZxStwa8Q"
+    },
+    "payment_method": "pm_1TFD4ZPmVcGSsjw25ijTVvpd",
+    "payment_method_configuration_details": null,
+    "payment_method_options": {
+        "card": {
+            "installments": null,
+            "mandate_options": null,
+            "network": null,
+            "request_three_d_secure": "automatic"
+        }
+    },
+    "payment_method_types": [
+        "card"
+    ],
+    "processing": null,
+    "receipt_email": null,
+    "review": null,
+    "setup_future_usage": null,
+    "shipping": {
+        "address": {
+            "city": "Cadaujac",
+            "country": "FR",
+            "line1": "5 All\u00e9e Fran\u00e7ois Armand de Saige",
+            "line2": null,
+            "postal_code": "33140",
+            "state": null
+        },
+        "carrier": null,
+        "name": "davy carreau",
+        "phone": null,
+        "tracking_number": null
+    },
+    "source": null,
+    "statement_descriptor": null,
+    "statement_descriptor_suffix": null,
+    "status": "succeeded",
+    "transfer_data": null,
+    "transfer_group": null
+}

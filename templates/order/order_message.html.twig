@@ -3,9 +3,26 @@
 {% block title %}Commande en cours{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <p class="text-center mt-5">
-            <h2>Votre commande a ete prise en compte</h2>
-        </p>
+    <div class="container d-flex justify-content-center mt-5">
+        
+        <div class="bg-white rounded-lg shadow p-5 text-center" style="max-width: 600px; width: 100%;">
+            
+            <div class="mb-4 d-flex justify-content-center">
+                <div class="mb-4">
+                    <img src="{{ asset('/public/uploads/success.jpg') }}" class="img-fluid" alt="Succès" style="max-height: 150px;">
+                </div>
+            </div>
+            
+            <h2 class="text-success font-weight-bold mb-4">Votre commande a ete prise en compte</h2>
+            
+            <p class="text-muted mb-5">
+                Merci pour votre confiance. Votre commande est en cours de préparation.
+            </p>
+
+            <div class="mt-4">
+                <a href="{{ path('app_home_page') }}" class="btn btn-success btn-lg px-5">Retour à l'accueil</a>
+            </div>
+            
+        </div>
     </div>
 {% endblock %}
