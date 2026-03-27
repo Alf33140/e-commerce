@@ -57,9 +57,11 @@ final class OrderController extends AbstractController
            
                 if(!empty($data['total'])){
                 //dd($order);
+                // on rajoute les frais de port
+                $totalPrice = $data['total'] + $order->getCity()->getCost();
 
                 //on defini le prix total de la commande
-                    $order->setTotalPrice($data['total']);
+                    $order->setTotalPrice($totalPrice);
                     $order ->setCreatedAt(new \DateTimeImmutable());
                     $order ->setisPaymentCompleted(0);
                     
@@ -127,10 +129,20 @@ final class OrderController extends AbstractController
     {
         return $this->render('order/order_message.html.twig');
     }
-    #[Route('/editor/order', name:'app_orders_show')]
-    public function getAllOrder(OrderRepository $orderRepository,Request $request, PaginatorInterface $paginator):Response
+    #[Route('/editor/order/{type}', name:'app_orders_show')]
+    public function getAllOrder($type, OrderRepository $orderRepository,Request $request, PaginatorInterface $paginator):Response
     {
-         $data =$orderRepository->findBy([],['id'=>"DESC"]);
+        if($type  == 'is-completed'){
+            
+
+         $data = $orderRepository->findBy(['isCompleted'=>1],['id'=>'DESC']);
+         }else if($type == 'pay-on-strype-not-delivered'){
+            $data = $orderRepository->findBy(['isCompleted'=>null,'payOnDelivery'=>0,'isPaymentCompleted'=>1],['id'=>'DESC']);
+         }else if($type == 'pay-on-strype-not-delivered'){
+            $data = $orderRepository->findBy(['isCompleted'=>1,'payOnDelivery'=>0,'isPaymentCompleted'=>1],['id'=>'DESC']);
+         }else if($type == 'pay-on-strype-not-delivered'){
+            $data = $orderRepository->findBy(['isCompleted'=>null,'payOnDelivery'=>0,'isPaymentCompleted'=>0],['id'=>'DESC']);
+         }
             $orders = $paginator->paginate(
             $data,
             $request->query->getInt('page',1),

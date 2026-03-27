@@ -8,6 +8,7 @@ use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class StripeController extends AbstractController
@@ -20,8 +21,9 @@ final class StripeController extends AbstractController
         ]);
     }
     #[Route('/pay/success', name: 'app_stripe_success')]
-    public function PaySuccess(): Response
+    public function PaySuccess(SessionInterface $session): Response
     {
+        $session->set('cart',[]);
         return $this->render('stripe/paySuccess.html.twig', [
             'controller_name' => 'StripeController',
         ]);

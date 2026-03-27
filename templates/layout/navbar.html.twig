@@ -26,9 +26,9 @@
           </li>
           {% endif %}
         {% if is_granted("ROLE_ADMIN") %}
-    {# if is_granted('ROLE_ADMIN') est une condition qui vérifie si l'utilisateur connecté a le rôle ROLE_ADMIN,
-     ce qui permet d'afficher le menu "Admin" uniquement aux utilisateurs ayant ce rôle,
-     assurant ainsi que les fonctionnalités d'administration ne sont accessibles qu'aux utilisateurs autorisés.#}
+          {# if is_granted('ROLE_ADMIN') est une condition qui vérifie si l'utilisateur connecté a le rôle ROLE_ADMIN,
+          ce qui permet d'afficher le menu "Admin" uniquement aux utilisateurs ayant ce rôle,
+          assurant ainsi que les fonctionnalités d'administration ne sont accessibles qu'aux utilisateurs autorisés.#}
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -58,6 +58,21 @@
           </li>
           
           {% else %}
+        {% if is_granted("ROLE_ADMIN") %}
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Commandes
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{{path('app_orders_show',{'type':'is-completed'}) }}">Commandes livrees</a></li>
+            <li><a class="dropdown-item" href="">Commandes Non Livrées</a></li>
+            <li><a class="dropdown-item" href="">Commandes</a></li>
+            <li><a class="dropdown-item" href="">Commandes</a></li>
+            
+          </ul>
+        </li>
+        {% endif %}
           <li class="nav-item">
             <a class="nav-link" href="{{ path('app_cart') }}">Mon Panier</a>
           </li>
