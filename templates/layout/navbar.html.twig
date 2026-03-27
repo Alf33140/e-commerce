@@ -66,9 +66,9 @@
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{{path('app_orders_show',{'type':'is-completed'}) }}">Commandes livrees</a></li>
-            <li><a class="dropdown-item" href="">Commandes Non Livrées</a></li>
-            <li><a class="dropdown-item" href="">Commandes</a></li>
-            <li><a class="dropdown-item" href="">Commandes</a></li>
+            <li><a class="dropdown-item" href="{{path('app_orders_show',{'type':'no_delivery'}) }}">Commandes Non Livrées</a></li>
+            <li><a class="dropdown-item" href="{{path('app_orders_show',{'type':'pay-on-stripe-not-delivered'}) }}">Commandes </a></li>
+            <li><a class="dropdown-item" href="{{path('app_orders_show',{'type':'pay-on-stripe-is-delivered'}) }}">Commandes </a></li>
             
           </ul>
         </li>
@@ -81,6 +81,10 @@
           </li>
         {% endif %}
       </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
     </div>
   </div>
 </nav>

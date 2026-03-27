@@ -136,11 +136,11 @@ final class OrderController extends AbstractController
             
 
          $data = $orderRepository->findBy(['isCompleted'=>1],['id'=>'DESC']);
-         }else if($type == 'pay-on-strype-not-delivered'){
+         }else if($type == 'pay-on-stripe-not-delivered'){
             $data = $orderRepository->findBy(['isCompleted'=>null,'payOnDelivery'=>0,'isPaymentCompleted'=>1],['id'=>'DESC']);
-         }else if($type == 'pay-on-strype-not-delivered'){
+         }else if($type == 'pay-on-stripe-is-delivered'){
             $data = $orderRepository->findBy(['isCompleted'=>1,'payOnDelivery'=>0,'isPaymentCompleted'=>1],['id'=>'DESC']);
-         }else if($type == 'pay-on-strype-not-delivered'){
+         }else if($type == 'no_delivery'){
             $data = $orderRepository->findBy(['isCompleted'=>null,'payOnDelivery'=>0,'isPaymentCompleted'=>0],['id'=>'DESC']);
          }
             $orders = $paginator->paginate(
@@ -155,14 +155,14 @@ final class OrderController extends AbstractController
     ]);
     }
     #[Route('/editor/order/{id}/is-completed/update', name: 'app_orders_is-completed-update')]
-    public function isCompletedUpdate($id, OrderRepository $orderRepository, EntityManagerInterface $entityManagerInterface)
+    public function isCompletedUpdate(Request $request, $id, OrderRepository $orderRepository, EntityManagerInterface $entityManagerInterface)
     {
         $order = $orderRepository->find($id);
         $order->setIsCompleted(true);
         $entityManagerInterface->flush();
         $this->addFlash('success', 'La livraison a été enregistré avec success');
         
-        return $this->redirectToRoute('app_orders_show');
+        return $this->redirectToRoute($request->headers->get('referer'));
        
     }
     #[Route('/editor/order/{id}/delete', name: 'app_orders_delete')]

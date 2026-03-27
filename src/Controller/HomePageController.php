@@ -17,6 +17,8 @@ final class HomePageController extends AbstractController
     #[Route('/', name: 'app_home_page')]  //cette annotation indique que la méthode index() est associée à la route racine ("/") de l'application. Lorsque les utilisateurs accèdent à cette URL, la méthode index() sera exécutée pour générer la réponse appropriée.
     public function index(ProductRepository $productRepository, CategorieRepository $categorieRepository,Request $request, PaginatorInterface $paginator): Response 
     {
+            $search = $productRepository->searchEngine('Pistolet');
+            dd($search);
             $data =$productRepository->findBy([],['id'=>"DESC"]);
             $products = $paginator->paginate(
             $data,
