@@ -55,12 +55,11 @@ jobs:
       run: composer install --prefer-dist --no-progress
 
     # 4.1 Création de la base de données pour les tests
-    - name: Create Test Database
-      run: php bin/console doctrine:database:create --env=test
+    - name: Create var directory for tests
+      run: mkdir -p var/cache/test
+
     - name: Create Schema
       run: php bin/console doctrine:schema:update --force --env=test
-    - name: Load Fixtures
-      run: php bin/console doctrine:fixtures:load --no-interaction --env=test
 
     # 5. Exécution des tests unitaires et fonctionnels
     # Lance PHPUnit pour vérifier que le code fonctionne comme prévu
