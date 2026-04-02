@@ -54,13 +54,6 @@ jobs:
       # --prefer-dist accélère le téléchargement, --no-progress réduit le bruit dans les logs
       run: composer install --prefer-dist --no-progress
 
-    # 4.1 Création de la base de données pour les tests
-    - name: Create var directory for tests
-      run: mkdir -p var/cache/test
-
-    - name: Create Schema
-      run: php bin/console doctrine:schema:update --force --env=test
-
     # 5. Exécution des tests unitaires et fonctionnels
     # Lance PHPUnit pour vérifier que le code fonctionne comme prévu
     - name: Run PHPUnit tests
