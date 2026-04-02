@@ -37,28 +37,26 @@ security:
 
     # Note: Only the *first* matching rule is applied
     access_control:
-         - { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/editor, roles: ROLE_EDITOR }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/editor, roles: ROLE_EDITOR }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
     security:
         password_hashers:
             # Password hashers are resource-intensive by design to ensure security.
-            # In tests, it's safe to reduce their cost to improve performance.
+            # In tests, it's safe to r educe their cost to improve performance.
             Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
                 algorithm: plaintext
-                cost: 4 # Lowest possible value for bcrypt
-                time_cost: 3 # Lowest possible value for argon
-                memory_cost: 10 # Lowest possible value for argon
+                # cost: 4 # Lowest possible value for bcrypt
+                # time_cost: 3 # Lowest possible value for argon
+                # memory_cost: 10 # Lowest possible value for argon
         providers:
             app_user_provider_test:
                 memory:
                     users:
-                        test_user:
-                            password: 'test_password'
-                            roles: ['ROLE_USER']
+                        test@test.com: { password: password, roles: ['ROLE_USER', 'ROLE_ADMIN'] } # notification: le mot de passe doit être en clair car on utilise l'algorithme plaintext pour les tests
+                         
         firewalls:
             main:
                 provider: app_user_provider_test
-              

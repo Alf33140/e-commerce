@@ -12,6 +12,9 @@ class SecurityController extends AbstractController
     #[Route(path: '/login', name: 'app_login')] #cette annotation définit une route pour la page de connexion de l'application. La route est accessible via l'URL '/login' et est nommée 'app_login'. Cela signifie que lorsque les utilisateurs accèdent à cette URL, la méthode login() de ce contrôleur sera exécutée pour gérer le processus de connexion.
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_home_page');
+        }
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError(); #cette ligne utilise l'objet AuthenticationUtils pour récupérer la dernière erreur d'authentification, le cas échéant. Si une erreur s'est produite lors de la tentative de connexion précédente, elle sera stockée dans la variable $error. Cela permet à l'application d'afficher un message d'erreur approprié à l'utilisateur si la connexion a échoué.
 

@@ -1,20 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SearchEngineController!{% endblock %}
+{% block title %}Moteur de Recherche{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello ✅</h1>
+        <div class="container container-home">
+            <div class='container'>
+                <h1>Résultat de la recherche du mot: "{{ word }}"</h1> 
+                    
+                        <div class="row">
+                            {% for product in products %}
+                                <div class="card" style="width: 18rem;">
+                                    <img src="{{ asset('uploads/'~product.images)}}" class="imgproduct card-img-top">
+                                    <div class="card-body">
+                                        <a href="{{ path('app_home_product_show',{'id':product.id}) }}" class="titleProductionLink" ><h5 class="card-title">{{ product.name }}</h5></a>
+                                        <p class="card-text">{{ product.description|slice(0,60)}} </p>
+                                        <p class="card-text">{{ product.price }} Thunes</p>
+                                        <p class="card-text">Stock: {{ product.stock }}</p>
+                                        <h3> {{product.price}} Thunes</h3>
+                                        <a href="{{ path('app_cart_new',{'id':product.id})}}" class="btn btn-primary">Passe a la Caisse</a>
+                                        
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                     <div class='mt-5'> {# mt marging-top #}
+                     {# {{ knp_pagination_render(products, 'layout/pagination_template.html.twig')}}   #}
+                     </div> 
+              
+            </div>
+        
+        </div>
+       
+    {% endblock %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/wamp64/www/e-commerce/e-commerce/src/Controller/SearchEngineController.php</code></li>
-        <li>Your template at <code>C:/wamp64/www/e-commerce/e-commerce/templates/search_engine/index.html.twig</code></li>
-    </ul>
-</div>
-{% endblock %}

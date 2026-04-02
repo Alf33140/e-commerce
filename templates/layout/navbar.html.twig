@@ -81,9 +81,9 @@
           </li>
         {% endif %}
       </ul>
-      <form action="{{ path('app_search_engine') }}" method="POST" class="d-flex">
-    <input name="p" ...>
-    <button type="submit">Recherche</button>
+      <form action="{{ path('app_search_engine') }}" method="get" data-turbo="false" class="d-flex">
+    <input name="word" type="search" placeholder="Rechercher un produit" aria-label="Search" class="form-control me-2">
+    <button type="submit" class="btn btn-outline-success">Recherche</button>
 </form>
     </div>
   </div>
