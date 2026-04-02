@@ -36,10 +36,8 @@ final class CategorieController extends AbstractController
             $entityManager->flush();
             $this->addFlash('info','La catégorie a été ajoutée avec succès'); 
            
-            return $this->redirectToRoute('app_categorieController');
-           
+            return $this->redirectToRoute('app_categorieController');  
         }
-        
         return $this->render('categoriecontroller/newCategorie.html.twig', [
             'form' => $form->createView(),
         ]);
