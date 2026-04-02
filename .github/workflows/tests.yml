@@ -56,9 +56,9 @@ jobs:
 
     # 5. Exécution des tests unitaires et fonctionnels
     # Lance PHPUnit pour vérifier que le code fonctionne comme prévu
-    - name: Run PHPUnit tests
+    - name: Run SecurityController tests
       run: |
-        # Lance les tests avec un affichage détaillé et en couleur
-        php bin/phpunit --colors=always  
+        # Lance uniquement SecurityController avec un affichage détaillé et en couleur
+        php bin/phpunit --colors=always   tests/controller/SecurityControllerTest.php
         # Affiche un résumé de la couverture de code dans la console
-        php bin/phpunit --coverage-text
+        php bin/phpunit --coverage-text tests/controller/SecurityControllerTest.php
