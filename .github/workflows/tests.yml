@@ -59,6 +59,6 @@ jobs:
     - name: Run SecurityController tests
       run: |
         # Lance uniquement SecurityController avec un affichage détaillé et en couleur
-        php bin/phpunit --colors=always   tests/controller/SecurityControllerTest.php
+        php bin/phpunit --colors=always   tests/Controller/SecurityControllerTest.php
         # Affiche un résumé de la couverture de code dans la console
-        php bin/phpunit --coverage-text tests/controller/SecurityControllerTest.php
+        php bin/phpunit --coverage-text tests/Controller/SecurityControllerTest.php
